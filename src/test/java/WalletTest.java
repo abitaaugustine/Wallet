@@ -1,30 +1,30 @@
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class WalletTest {
     @Test
-    void putMoneyIntoTheWallet() {
+    void shouldPutMoneyIntoTheWallet() {
         Wallet wallet = new Wallet();
 
-        assertTrue(wallet.add(10));
+        assertTrue(wallet.put(new Currency(10, CurrencyType.Rupees)));
+        assertTrue(wallet.put(new Currency(10, CurrencyType.Dollars)));
     }
 
     @Test
-    void takeMoneyFromWalletIfThereIsAmount() {
+    void shouldTakeMoneyFromWalletIfThereIsAmount() {
         Wallet wallet = new Wallet();
-        wallet.add(10);
+        wallet.put(new Currency(10, CurrencyType.Rupees));
 
-        assertTrue(wallet.take(5));
+        assertTrue(wallet.take(new Currency(5, CurrencyType.Rupees)));
     }
 
     @Test
-    void shouldNotTakeMoneyFromWalletIfTheAmountInWalletisLessThanDesired() {
+    void shouldNotTakeMoneyFromWalletIfTheAmountInWalletIsLessThanDesired() {
         Wallet wallet = new Wallet();
-        wallet.add(1);
+        wallet.put(new Currency(1, CurrencyType.Rupees));
+        wallet.put(new Currency(5, CurrencyType.Dollars));
 
-        assertFalse(wallet.take(5));
+        assertFalse(wallet.take(new Currency(5, CurrencyType.Rupees)));
     }
-
 }
