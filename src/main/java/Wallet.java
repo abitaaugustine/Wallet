@@ -5,4 +5,12 @@ public class Wallet {
         this.amount += amount;
         return true;
     }
+
+    public boolean take(int amount) {
+        if(this.amount<amount)
+            return false;
+        this.amount-=amount;
+        return true;
+    }
+
 }
