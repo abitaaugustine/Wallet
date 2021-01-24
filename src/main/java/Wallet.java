@@ -21,4 +21,13 @@ public class Wallet {
         }
         return false;
     }
+
+    public double total(CurrencyType currencyType) {
+        double totalAmount=0;
+
+        for (Currency currency:amountInWallet) {
+            totalAmount+=currency.amount* currency.currencyType.multiplier;
+        }
+        return totalAmount/currencyType.multiplier;
+    }
 }
