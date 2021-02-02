@@ -1,3 +1,5 @@
+package com.tw.wallet;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,7 +14,7 @@ public class Wallet {
     public boolean take(Currency takeAmount) {
         for (Currency currency : amountInWallet) {
             if (currency.amount >= takeAmount.amount && currency.currencyType == takeAmount.currencyType) {
-                amountInWallet.remove(takeAmount);
+                amountInWallet.remove(currency);
                 if (currency.amount - takeAmount.amount > 0) {
                     amountInWallet.add(new Currency(currency.amount - takeAmount.amount, takeAmount.currencyType));
                 }
@@ -23,10 +25,10 @@ public class Wallet {
     }
 
     public double total(CurrencyType currencyType) {
-        double totalAmount=0;
+        double totalAmount = 0;
 
         for (Currency currency:amountInWallet) {
-            totalAmount+=currency.amount* currency.currencyType.multiplier;
+            totalAmount += currency.amount * currency.currencyType.multiplier;
         }
         return totalAmount/currencyType.multiplier;
     }
