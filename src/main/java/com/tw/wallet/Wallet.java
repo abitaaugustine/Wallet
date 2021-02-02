@@ -6,10 +6,13 @@ import java.util.List;
 public class Wallet {
     private final List<Currency> amountInWallet = new ArrayList<>();
 
-    public boolean put(Currency amount) {
-        amountInWallet.add(amount);
-        return true;
+    public void put(Currency currency) throws InvalidAmountException {
+        if(currency.amount<=0)
+            throw new InvalidAmountException("invalid amount");
+        amountInWallet.add(currency);
     }
+
+
 
     public boolean take(Currency takeAmount) {
         for (Currency currency : amountInWallet) {
@@ -27,9 +30,9 @@ public class Wallet {
     public double total(CurrencyType currencyType) {
         double totalAmount = 0;
 
-        for (Currency currency:amountInWallet) {
+        for (Currency currency : amountInWallet) {
             totalAmount += currency.amount * currency.currencyType.multiplier;
         }
-        return totalAmount/currencyType.multiplier;
+        return totalAmount / currencyType.multiplier;
     }
 }

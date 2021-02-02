@@ -6,6 +6,6 @@ public class Currency {
 
     public Currency(double amount, CurrencyType currencyType) {
         this.amount = amount;
-        this.currencyType=currencyType;
+        this.currencyType = currencyType;
     }
 }
