@@ -1,8 +1,8 @@
 package com.tw.wallet;
 
 public enum CurrencyType {
-    Rupees(1),
-    Dollars(74.85);
+    RUPEES(1),
+    DOLLARS(74.85);
 
     public final double multiplier;
 

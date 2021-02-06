@@ -12,19 +12,17 @@ public class Wallet {
         amountInWallet.add(currency);
     }
 
-
-
-    public boolean take(Currency takeAmount) {
-        for (Currency currency : amountInWallet) {
+    public void take(Currency takeAmount) throws AmountRequestedMoreThanInWalletException {
+        for ( Currency currency: amountInWallet) {
             if (currency.amount >= takeAmount.amount && currency.currencyType == takeAmount.currencyType) {
                 amountInWallet.remove(currency);
                 if (currency.amount - takeAmount.amount > 0) {
                     amountInWallet.add(new Currency(currency.amount - takeAmount.amount, takeAmount.currencyType));
+                    return;
                 }
-                return true;
             }
         }
-        return false;
+        throw new AmountRequestedMoreThanInWalletException("Wallet does not have enough balance");
     }
 
     public double total(CurrencyType currencyType) {
