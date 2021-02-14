@@ -1,36 +1,26 @@
 package com.tw.wallet;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.tw.wallet.exceptions.AmountInWalletExceededException;
 
 public class Wallet {
-    private final List<Currency> amountInWallet = new ArrayList<>();
+    private final Money amountInWallet;
 
-    public void put(Currency currency) throws InvalidAmountException {
-        if (currency.amount <= 0)
-            throw new InvalidAmountException("invalid amount");
-        amountInWallet.add(currency);
+    public Wallet() {
+        amountInWallet = new Money();
     }
 
-    public void take(Currency takeAmount) throws AmountRequestedMoreThanInWalletException {
-        for (Currency currency : amountInWallet) {
-            if (currency.amount >= takeAmount.amount && currency.currencyType == takeAmount.currencyType) {
-                amountInWallet.remove(currency);
-                if (currency.amount - takeAmount.amount > 0) {
-                    amountInWallet.add(new Currency(currency.amount - takeAmount.amount, takeAmount.currencyType));
-                }
-                return;
-            }
+    public void put(Money money) {
+        amountInWallet.add(money);
+    }
+
+    public void take(Money takeAmount) throws AmountInWalletExceededException {
+        if (amountInWallet.amount < takeAmount.amount * takeAmount.currencyType.multiplier) {
+            throw new AmountInWalletExceededException("Wallet does not have enough balance");
         }
-        throw new AmountRequestedMoreThanInWalletException("Wallet does not have enough balance");
+        amountInWallet.take(takeAmount);
     }
 
     public double total(CurrencyType currencyType) {
-        double totalAmount = 0;
-
-        for (Currency currency : amountInWallet) {
-            totalAmount += currency.amount * currency.currencyType.multiplier;
-        }
-        return totalAmount / currencyType.multiplier;
+        return amountInWallet.amount / currencyType.multiplier;
     }
 }

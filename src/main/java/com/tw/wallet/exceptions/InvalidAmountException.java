@@ -1,4 +1,4 @@
-package com.tw.wallet;
+package com.tw.wallet.exceptions;
 
 public class InvalidAmountException extends Exception {
     public InvalidAmountException(String invalid_amount) {
